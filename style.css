@@ -1,0 +1,41 @@
+body{
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+#area {
+    font-size: 40px;
+    resize: none;
+    height: 100px;
+    width: 400px;
+    border: 4px black solid;
+    border-radius: 10px;
+    margin-top: 30px;
+    flex: 0 0 auto;
+}
+
+#calculator{
+    border: 4px black solid;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 500px;
+    height: 500px;
+}
+
+#button-controls{
+    display: flex;
+    flex-wrap: wrap;
+    width: 400px;
+    height: 400px;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.c-button{
+    width: 92.5px;
+    flex: 0 0 auto;
+}
