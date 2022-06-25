@@ -3,22 +3,27 @@ const numbers = document.querySelectorAll(`button[class='c-button num']`);
 const operators = document.querySelectorAll(`button[class='c-button operator']`);
 const del = document.getElementById('del');
 const cancle = document.getElementById('ac');
+const equalButton = document.getElementById('equal')
 let Contents = [] // list that keeps track of contents to be printed on screen
 let index = 0; // index of contents list
 let content; //content that is printed on the screen
+let Numbers = []// keeps track of numbers to be calculated
+let Operator; //keeps track of operation to be performed
 
 numbers.forEach((number) => number.addEventListener('click', printText));
+
 operators.forEach((operator) => operator.addEventListener('click', (e) => {
     let numBefore = Number(Contents[index-1])
-
+    
     if(!isNaN(numBefore)){
         printText(e)
+        operators.forEach((operator) => operator.disabled = true)
     }
 }));
+
 del.addEventListener('click', delPrevious)
 cancle.addEventListener('click', cancleAll)
-
-
+equalButton.addEventListener('click', calculate)
 
 function printText(e){
     index++
@@ -28,7 +33,12 @@ function printText(e){
 }
 
 function delPrevious(){
-    Contents.pop()
+    let contentRemoved = Contents.pop()
+    operators.forEach((operator) => {
+        if (contentRemoved === operator.textContent){
+            operators.forEach((operator) => operator.disabled = false)
+        }
+    })
     index--
     content = Contents.join('')
     screen.value = `${content}`
@@ -38,4 +48,41 @@ function cancleAll(){
     Contents = [];
     index = 0;
     screen.value = ''
+    operators.forEach((operator) => operator.disabled = false)
+}
+
+function calculate(){
+    operators.forEach((operator) => operator.disabled = false)
+    getnumbers()
+    let num1 = Number(Numbers[0].join(''))
+    let num2 = Number(Numbers[1].join(''))
+    console.log(num1)
+    if (Operator === 'x'){content = num1 * num2}
+    if (Operator === '/'){content = num1 / num2} 
+    if (Operator === '+'){content = num1 + num2}
+    if (Operator === '-'){content = num1 - num2}
+    if (Operator === '^'){content = num1 ** num2}
+    if (Operator === '%'){content = num1 % num2}
+    screen.value = content
+    Contents = Array.from(String(content));
+    index = Contents.length
+    Numbers = []
+}
+ 
+function getnumbers(){
+    let temp = []
+    Contents.forEach((contnt) => {
+        if(!isNaN(Number(contnt)) || contnt === '.'){
+            console.log(contnt)
+            temp.push(contnt)
+        }
+        else{
+            Numbers.push(temp)
+            Operator = contnt
+            temp = []
+        }
+    })
+    Numbers.push(temp)
+    temp = []
+    console.log(Numbers)
 }
